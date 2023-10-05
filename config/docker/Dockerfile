@@ -24,19 +24,19 @@ RUN npm run bundle:standalone
 
 FROM nginx:alpine
 
-ENV PAGE_TITLE="ReDoc"
+ENV PAGE_TITLE="Zebrunner API Documentation"
 ENV PAGE_FAVICON="favicon.png"
-ENV BASE_PATH=
-ENV SPEC_URL="http://petstore.swagger.io/v2/swagger.json"
+ENV BASE_PATH=""
+ENV SPEC_URL=""
 ENV PORT=80
-ENV REDOC_OPTIONS=
+ENV REDOC_OPTIONS=""
 
 # copy files to the nginx folder
-COPY --from=0 build/bundles /usr/share/nginx/html
+COPY --from=0 build/bundles /usr/share/nginx/html/
+COPY config/docker/favicon.svg /usr/share/nginx/html/
 COPY config/docker/index.tpl.html /usr/share/nginx/html/index.html
-COPY demo/favicon.png /usr/share/nginx/html/
 COPY config/docker/nginx.conf /etc/nginx/
-COPY config/docker/docker-run.sh /usr/local/bin
+COPY config/docker/docker-run.sh /usr/local/bin/
 
 # Provide rights to the root group to write to nginx repositories (needed to run in OpenShift)
 RUN chgrp -R 0 /etc/nginx && \

@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>%PAGE_TITLE%</title>
-    <link rel="icon" href="%BASE_PATH%%PAGE_FAVICON%" />
+    <link rel="icon" href="%BASE_PATH%favicon.svg" />
+
     <style>
       body {
         margin: 0;
@@ -13,6 +14,19 @@
 
       redoc {
         display: block;
+      }
+
+      .menu-content > .scrollbar-container > ul + div > a {
+        display: none;
+      }
+
+      .menu-content > .scrollbar-container > ul {
+        padding-bottom: 0;
+      }
+
+      .menu-content > div > img {
+        width: calc(100% - 40px);
+        margin: 5px 20px;
       }
     </style>
     <link
