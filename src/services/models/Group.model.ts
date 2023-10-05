@@ -14,6 +14,7 @@ export class GroupModel implements IMenuItem {
   absoluteIdx?: number;
   name: string;
   sidebarLabel: string;
+  sidebarOrder: string;
   description?: string;
   type: MenuItemGroupType;
 
@@ -44,6 +45,7 @@ export class GroupModel implements IMenuItem {
     this.level = (tagOrGroup as MarkdownHeading).level || 1;
 
     this.sidebarLabel = this.name;
+    this.sidebarOrder = tagOrGroup['x-order'] || this.name;
 
     // remove sections from markdown, same as in ApiInfo
     this.description = tagOrGroup.description || '';

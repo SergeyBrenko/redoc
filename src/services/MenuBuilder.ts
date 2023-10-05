@@ -1,10 +1,10 @@
-import type { OpenAPISpec, OpenAPIPaths, OpenAPITag, OpenAPISchema } from '../types';
-import { isOperationName, JsonPointer, alphabeticallyByProp } from '../utils';
-import { MarkdownRenderer } from './MarkdownRenderer';
-import { GroupModel, OperationModel } from './models';
-import type { OpenAPIParser } from './OpenAPIParser';
-import type { RedocNormalizedOptions } from './RedocNormalizedOptions';
-import type { ContentItemModel, TagGroup, TagInfo, TagsInfoMap } from './types';
+import type {OpenAPIPaths, OpenAPISchema, OpenAPISpec, OpenAPITag} from '../types';
+import {alphabeticallyByProp, isOperationName, JsonPointer} from '../utils';
+import {MarkdownRenderer} from './MarkdownRenderer';
+import {GroupModel, OperationModel} from './models';
+import type {OpenAPIParser} from './OpenAPIParser';
+import type {RedocNormalizedOptions} from './RedocNormalizedOptions';
+import type {ContentItemModel, TagGroup, TagInfo, TagsInfoMap} from './types';
 
 export const GROUP_DEPTH = 0;
 
@@ -152,9 +152,7 @@ export class MenuBuilder {
       res.push(item);
     }
 
-    if (options.sortTagsAlphabetically) {
-      res.sort(alphabeticallyByProp<GroupModel | OperationModel>('name'));
-    }
+    res.sort(alphabeticallyByProp<GroupModel | OperationModel>('sidebarOrder'));
 
     return res;
   }
@@ -185,9 +183,7 @@ export class MenuBuilder {
       res.push(operation);
     }
 
-    if (options.sortOperationsAlphabetically) {
-      res.sort(alphabeticallyByProp<OperationModel>('name'));
-    }
+    res.sort(alphabeticallyByProp<OperationModel>('sidebarOrder'));
 
     return res;
   }
@@ -199,7 +195,7 @@ export class MenuBuilder {
     const tags: TagsInfoMap = {};
     const webhooks = spec['x-webhooks'] || spec.webhooks;
     for (const tag of spec.tags || []) {
-      tags[tag.name] = { ...tag, operations: [] };
+      tags[tag.name] = {...tag, operations: []};
     }
 
     if (webhooks) {
@@ -217,8 +213,8 @@ export class MenuBuilder {
         for (const operationName of operations) {
           const operationInfo = path[operationName];
           if (path.$ref) {
-            const { resolved: resolvedPaths } = parser.deref<OpenAPIPaths>(path as OpenAPIPaths);
-            getTags(parser, { [pathName]: resolvedPaths }, isWebhook);
+            const {resolved: resolvedPaths} = parser.deref<OpenAPIPaths>(path as OpenAPIPaths);
+            getTags(parser, {[pathName]: resolvedPaths}, isWebhook);
             continue;
           }
           let operationTags = operationInfo?.tags;
@@ -253,14 +249,15 @@ export class MenuBuilder {
         }
       }
     }
+
     return tags;
   }
 
   static getTagRelatedSchema({
-    parser,
-    tag,
-    parent,
-  }: {
+                               parser,
+                               tag,
+                               parent,
+                             }: {
     parser: OpenAPIParser;
     tag: TagInfo;
     parent: GroupModel;

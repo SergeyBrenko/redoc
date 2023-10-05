@@ -50,6 +50,7 @@ export class OperationModel implements IMenuItem {
   absoluteIdx?: number;
   name: string;
   sidebarLabel: string;
+  sidebarOrder: string;
   description?: string;
   type = 'operation' as const;
 
@@ -112,6 +113,7 @@ export class OperationModel implements IMenuItem {
         : options.sideNavStyle === SideNavStyleEnum.PathOnly
         ? this.path
         : this.name;
+    this.sidebarOrder = operationSpec['x-order'] || this.sidebarLabel;
 
     if (this.isCallback) {
       // NOTE: Callbacks by default should not inherit the specification's global `security` definition.
